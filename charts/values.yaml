@@ -1,9 +1,8 @@
-fullname: deals
 image: ghcr.io/devops-estudos/deals:latest
 replicaCount: 1
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   externalPort: 80
   internalPort: 3000
 
