@@ -1,0 +1,16 @@
+fullname: deals
+image: ghcr.io/devops-estudos/deals:latest
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 3000
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
