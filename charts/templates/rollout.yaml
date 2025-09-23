@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: deals-rollout
-  namespace: default
 spec:
   replicas: 1
   revisionHistoryLimit: 10
