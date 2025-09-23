@@ -1,69 +1,29 @@
-{{- if eq (.Values.rollout.strategy.type | default "blueGreen") "blueGreen" }}
 # Active Service for Blue-Green deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Chart.Name }}-active"
-  namespace: {{ .Values.namespace }}
-  {{- if .Values.service.annotations }}
-  annotations:
-{{ toYaml .Values.service.annotations | indent 4 }}
-  {{- end }}
+  name: deals-active
+  namespace: default
 spec:
   type: ClusterIP
   ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
+  - port: 80
+    targetPort: 3000
     protocol: TCP
   selector:
-    app: {{ .Chart.Name }}
+    app: deals
 ---
 # Preview Service for Blue-Green deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Chart.Name }}-preview"
-  namespace: {{ .Values.namespace }}
+  name: deals-preview
+  namespace: default
 spec:
   type: ClusterIP
   ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
+  - port: 80
+    targetPort: 3000
     protocol: TCP
   selector:
-    app: {{ .Chart.Name }}
-{{- else if eq .Values.rollout.strategy.type "canary" }}
-# Stable Service for Canary deployment
-apiVersion: v1
-kind: Service
-metadata:
-  name: "{{ .Chart.Name }}-stable"
-  namespace: {{ .Values.namespace }}
-  {{- if .Values.service.annotations }}
-  annotations:
-{{ toYaml .Values.service.annotations | indent 4 }}
-  {{- end }}
-spec:
-  type: ClusterIP
-  ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
-    protocol: TCP
-  selector:
-    app: {{ .Chart.Name }}
----
-# Canary Service for Canary deployment
-apiVersion: v1
-kind: Service
-metadata:
-  name: "{{ .Chart.Name }}-canary"
-  namespace: {{ .Values.namespace }}
-spec:
-  type: ClusterIP
-  ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
-    protocol: TCP
-  selector:
-    app: {{ .Chart.Name }}
-{{- end }}
+    app: deals
