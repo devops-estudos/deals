@@ -1,15 +1,15 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: deals
+  name: deals-ingress-route
   namespace: default
   labels:
-    app: deals
+    app: deals-ingress-route
 spec:
   entryPoints:
     - web
   routes:
-    - name: deals
+    - name: deals-ingress-route
       kind: Rule
       match: PathPrefix(`/deals`)
       services:
@@ -17,8 +17,8 @@ spec:
           kind: TraefikService
           port: 80
       middlewares:
-        - name: replace-path
+        - name: strip-deals
           spec:
-            replacePathRegex:
-              regex: ^/deals/(.*)
-              replacement: /$1
+            stripPrefix:
+              prefixes:
+                - "/deals"
