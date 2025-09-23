@@ -1,7 +1,8 @@
 image:
   repository: ghcr.io/devops-estudos/deals
   tag: latest
-  
+  pullPolicy: Always
+
 replicaCount: 1
 
 service:
