@@ -18,7 +18,3 @@ spec:
           port: 80
       middlewares:
         - name: strip-deals
-          spec:
-            stripPrefix:
-              prefixes:
-                - "/deals"
