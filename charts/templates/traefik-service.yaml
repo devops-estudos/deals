@@ -1,4 +1,4 @@
-apiVersion: traefik.io/v1alpha1
+apiVersion: traefikservices.traefik.containo.us/v1alpha1
 kind: TraefikService
 metadata:
   name: deals-traefik-service
