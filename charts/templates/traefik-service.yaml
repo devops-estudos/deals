@@ -5,6 +5,8 @@ metadata:
 spec:
   weighted:
     services:
-      - name: deals-service
+      - name: deals-current
+        port: service
+      - name: deals-new
         port: service
         
