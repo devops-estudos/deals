@@ -4,6 +4,7 @@ metadata:
   name: deals-active
   namespace: default
 spec:
+  type: NodePort
   ports:
   - port: 80
     targetPort: http
@@ -17,6 +18,7 @@ metadata:
   name: deals-preview
   namespace: default
 spec:
+  type: NodePort
   ports:
   - port: 80
     targetPort: http
