@@ -9,6 +9,6 @@ spec:
     - match: PathPrefix(`/`)
       kind: Rule
       services:
-        - name: deals-service
+        - name: deals-traefik-service
           kind: TraefikService
           port: deals-service
