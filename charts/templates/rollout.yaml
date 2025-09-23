@@ -1,10 +1,68 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+# apiVersion: argoproj.io/v1alpha1
+# kind: Rollout
+# metadata:
+#   name: deals-rollout
+# spec:
+#   replicas: 1
+#   revisionHistoryLimit: 10
+#   selector:
+#     matchLabels:
+#       app: deals-rollout
+#   template:
+#     metadata:
+#       labels:
+#         app: deals-rollout
+#     spec:
+      # containers:
+      #   - name: deals
+      #     image: "ghcr.io/devops-estudos/deals:latest"
+      #     imagePullPolicy: Always
+      #     ports:
+      #       - name: pod
+      #         containerPort: 3000
+      #     livenessProbe:
+      #       httpGet:
+      #         path: /
+      #         port: 3000
+      #     readinessProbe:
+      #       httpGet:
+      #         path: /
+      #         port: 3000
+      #     resources:
+      #       limits:
+      #         cpu: 100m
+      #         memory: 128Mi
+      #       requests:
+      #         cpu: 100m
+      #         memory: 128Mi
+#   strategy:
+#     canary:
+#       canaryService: deals-preview
+#       stableService: deals-active
+#       trafficRouting:
+#         traefik:
+#           weightedTraefikServiceName: deals-traefik-service
+#       steps:
+#       - setWeight: 30
+#       - pause:
+#           duration: 30s
+#       - setWeight: 40
+#       - pause:
+#           duration: 30s
+#       - setWeight: 60
+#       - pause:
+#           duration: 30s
+#       - setWeight: 80
+#       - pause:
+#           duration: 30s
+
+---
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: deals-rollout
 spec:
-  replicas: 1
-  revisionHistoryLimit: 10
+  replicas: 2
   selector:
     matchLabels:
       app: deals-rollout
@@ -14,7 +72,7 @@ spec:
         app: deals-rollout
     spec:
       containers:
-        - name: deals
+        - name: deals-rollout
           image: "ghcr.io/devops-estudos/deals:latest"
           imagePullPolicy: Always
           ports:
@@ -35,23 +93,3 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-  strategy:
-    canary:
-      canaryService: deals-preview
-      stableService: deals-active
-      trafficRouting:
-        traefik:
-          weightedTraefikServiceName: deals-traefik-service
-      steps:
-      - setWeight: 30
-      - pause:
-          duration: 30s
-      - setWeight: 40
-      - pause:
-          duration: 30s
-      - setWeight: 60
-      - pause:
-          duration: 30s
-      - setWeight: 80
-      - pause:
-          duration: 30s
