@@ -11,4 +11,4 @@ spec:
       services:
         - name: deals-service
           kind: Service
-          port: deals-service
+          port: service
