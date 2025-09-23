@@ -8,12 +8,17 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
-    - name: deals-ingress-route
-      kind: Rule
+    - kind: Rule
       match: PathPrefix(`/`)
       services:
-        - name: deals-active
-          port: 80
-      middlewares:
-        - name: strip-deals
+        - kind: Service
+          name: deals-active
+          namespace: default
+          port: http
+        - kind: Service
+          name: deals-preview
+          namespace: default
+          port: http
+
