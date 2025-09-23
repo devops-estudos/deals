@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: "{{ .Chart.Name }}-bluegreen"
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.rollout.revisionHistoryLimit | default 10 }}
   selector:
     matchLabels:
-      app: "{{ .Chart.Name }}-bluegreen"
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: "{{ .Chart.Name }}-bluegreen"
+        app: {{ .Chart.Name }}
     spec:
       containers:
-        - name: "{{ .Chart.Name }}"
+        - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -28,14 +29,28 @@ spec:
               path: /
               port: {{ .Values.service.internalPort | int }}
           resources:
-            limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
+{{ toYaml .Values.resources | indent 12 }}
   strategy:
-    blueGreen:
-      activeService: "{{ .Chart.Name }}-bluegreen-active"
-      previewService: "{{ .Chart.Name }}-bluegreen-preview"
-      autoPromotionEnabled: false
+    {{ .Values.rollout.strategy.type | default "blueGreen" }}:
+      {{- if eq (.Values.rollout.strategy.type | default "blueGreen") "blueGreen" }}
+      activeService: "{{ .Chart.Name }}-active"
+      previewService: "{{ .Chart.Name }}-preview"
+      autoPromotionEnabled: {{ .Values.rollout.strategy.blueGreen.autoPromotionEnabled | default false }}
+      {{- if .Values.rollout.strategy.blueGreen.scaleDownDelaySeconds }}
+      scaleDownDelaySeconds: {{ .Values.rollout.strategy.blueGreen.scaleDownDelaySeconds }}
+      {{- end }}
+      {{- if .Values.rollout.strategy.blueGreen.scaleDownDelayRevisionLimit }}
+      scaleDownDelayRevisionLimit: {{ .Values.rollout.strategy.blueGreen.scaleDownDelayRevisionLimit }}
+      {{- end }}
+      {{- else if eq .Values.rollout.strategy.type "canary" }}
+      canaryService: "{{ .Chart.Name }}-canary"
+      stableService: "{{ .Chart.Name }}-stable"
+      {{- if .Values.rollout.strategy.canary.steps }}
+      steps:
+{{ toYaml .Values.rollout.strategy.canary.steps | indent 8 }}
+      {{- end }}
+      {{- if .Values.rollout.strategy.canary.trafficRouting }}
+      trafficRouting:
+{{ toYaml .Values.rollout.strategy.canary.trafficRouting | indent 8 }}
+      {{- end }}
+      {{- end }}

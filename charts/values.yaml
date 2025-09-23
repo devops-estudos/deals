@@ -19,3 +19,27 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+# Argo Rollouts configuration
+rollout:
+  revisionHistoryLimit: 10
+  strategy:
+    type: blueGreen  # Options: blueGreen, canary
+    blueGreen:
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      scaleDownDelayRevisionLimit: 2
+    # canary:
+    #   steps:
+    #     - setWeight: 20
+    #     - pause: {duration: 10}
+    #     - setWeight: 40
+    #     - pause: {duration: 10}
+    #     - setWeight: 60
+    #     - pause: {duration: 10}
+    #     - setWeight: 80
+    #     - pause: {duration: 10}
+    #   trafficRouting:
+    #     alb:
+    #       ingress: deals-ingress
+    #       servicePort: 80
