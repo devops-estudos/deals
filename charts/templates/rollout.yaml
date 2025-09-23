@@ -18,7 +18,7 @@ spec:
           image: "ghcr.io/devops-estudos/deals:latest"
           imagePullPolicy: Always
           ports:
-            - name: deals
+            - name: pod
               containerPort: 3000
           livenessProbe:
             httpGet:

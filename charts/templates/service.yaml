@@ -4,9 +4,9 @@ metadata:
   name: deals-active
 spec:
   ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
+  - name: service
+    port: 80
+    targetPort: pod
   selector:
     app: deals-rollout
 ---
@@ -16,8 +16,8 @@ metadata:
   name: deals-preview
 spec:
   ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
+  - name: service
+    port: 80
+    targetPort: pod
   selector:
     app: deals-rollout

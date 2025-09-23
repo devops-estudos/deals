@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: deals-traefik-service
+spec:
+  weighted:
+    services:
+      - name: deals-active
+        weight: 100
+        port: service
+      - name: deals-preview
+        weight: 0
+        port: service
