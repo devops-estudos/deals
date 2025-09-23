@@ -9,7 +9,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(k8s-default-traefik-9bf987bf9b-6a52a75327059ae7.elb.us-east-1.amazonaws.com`)
+      match: Host(`k8s-default-traefik-9bf987bf9b-6a52a75327059ae7.elb.us-east-1.amazonaws.com`)
       services:
         - name: deals-active
           kind: Service
