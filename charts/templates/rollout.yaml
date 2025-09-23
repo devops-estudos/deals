@@ -60,19 +60,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deals-rollout
+  name: deals-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: deals-rollout
+      app: deals
   template:
     metadata:
       labels:
-        app: deals-rollout
+        app: deals
     spec:
       containers:
-        - name: deals-rollout
+        - name: deals
           image: "ghcr.io/devops-estudos/deals:latest"
           imagePullPolicy: Always
           ports:
