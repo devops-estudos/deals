@@ -1,3 +1,5 @@
+namespace: default
+
 image:
   repository: ghcr.io/devops-estudos/deals
   tag: latest
