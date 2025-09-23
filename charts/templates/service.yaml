@@ -5,8 +5,8 @@ metadata:
 spec:
   ports:
   - name: service
-    port: 80
-    targetPort: pod
+    port: 3000
+    targetPort: 3000
   selector:
     app: deals-rollout
 ---
@@ -17,7 +17,7 @@ metadata:
 spec:
   ports:
   - name: service
-    port: 80
-    targetPort: pod
+    port: 3000
+    targetPort: 3000
   selector:
     app: deals-rollout

@@ -11,4 +11,4 @@ spec:
       services:
         - name: deals-traefik-service
           kind: TraefikService
-          port: deals-active
+          port: 3000

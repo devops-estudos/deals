@@ -7,7 +7,7 @@ spec:
     services:
       - name: deals-active
         weight: 100
-        port: service
+        port: 3000
       - name: deals-preview
         weight: 0
-        port: service
+        port: 3000
