@@ -16,3 +16,9 @@ spec:
         - name: deals-traefik-service
           kind: TraefikService
           port: 80
+      middlewares:
+        - name: replace-path
+          spec:
+            replacePathRegex:
+              regex: ^/deals/(.*)
+              replacement: /$1
