@@ -8,11 +8,11 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: deals
+      app: deals-rollout
   template:
     metadata:
       labels:
-        app: deals
+        app: deals-rollout
     spec:
       containers:
         - name: deals
