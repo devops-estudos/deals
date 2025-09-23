@@ -1,4 +1,7 @@
-image: ghcr.io/devops-estudos/deals:latest
+image:
+  repository: ghcr.io/devops-estudos/deals
+  tag: latest
+  
 replicaCount: 1
 
 service:
