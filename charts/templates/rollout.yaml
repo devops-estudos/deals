@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: "{{ .Chart.Name }}-bluegreen"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}-bluegreen"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name }}-bluegreen"
+    spec:
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort | int }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort | int }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort | int }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+  strategy:
+    blueGreen:
+      activeService: "{{ .Chart.Name }}-bluegreen-active"
+      previewService: "{{ .Chart.Name }}-bluegreen-preview"
+      autoPromotionEnabled: false
