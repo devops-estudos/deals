@@ -1,0 +1,33 @@
+{{- if and (eq .Values.rollout.strategy.type "canary") .Values.rollout.strategy.canary.traefik }}
+# Traefik Weighted Service for Canary deployments
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: {{ .Chart.Name }}-weighted
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  weighted:
+    services:
+      - name: {{ .Chart.Name }}-stable
+        weight: 100
+        port: {{ .Values.service.externalPort }}
+      - name: {{ .Chart.Name }}-canary
+        weight: 0
+        port: {{ .Values.service.externalPort }}
+---
+# Traefik Root Service for Canary deployments
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: {{ .Chart.Name }}-root
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  weighted:
+    services:
+      - name: {{ .Chart.Name }}-weighted
+        weight: 100
+{{- end }}

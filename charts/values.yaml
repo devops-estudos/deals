@@ -8,9 +8,19 @@ image:
 replicaCount: 1
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   externalPort: 80
   internalPort: 3000
+  annotations: {}
+
+# Traefik IngressRoute configuration
+ingress:
+  enabled: true
+  host: deals.local
+  entryPoint: web
+  matchRule: PathPrefix(`/deals`)
+  middlewares: []
+  tls: {}
 
 resources:
   limits:
@@ -39,7 +49,8 @@ rollout:
     #     - pause: {duration: 10}
     #     - setWeight: 80
     #     - pause: {duration: 10}
+    #   traefik: true
     #   trafficRouting:
-    #     alb:
-    #       ingress: deals-ingress
-    #       servicePort: 80
+    #     traefik:
+    #       weightedTraefikServiceName: deals-weighted
+    #       rootServiceName: deals-root

@@ -53,4 +53,10 @@ spec:
       trafficRouting:
 {{ toYaml .Values.rollout.strategy.canary.trafficRouting | indent 8 }}
       {{- end }}
+      {{- if .Values.rollout.strategy.canary.traefik }}
+      trafficRouting:
+        traefik:
+          weightedTraefikServiceName: {{ .Chart.Name }}-weighted
+          rootServiceName: {{ .Chart.Name }}-root
+      {{- end }}
       {{- end }}
