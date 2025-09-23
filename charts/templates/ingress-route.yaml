@@ -10,5 +10,5 @@ spec:
       kind: Rule
       services:
         - name: deals-service
-          kind: Service
-          port: service
+          kind: TraefikService
+          port: deals-service
