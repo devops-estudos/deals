@@ -13,8 +13,7 @@ spec:
       kind: Rule
       match: PathPrefix(`/deals`)
       services:
-        - name: deals-traefik-service
-          kind: TraefikService
+        - name: deals-active
           port: 80
       middlewares:
         - name: strip-deals
