@@ -11,7 +11,7 @@ spec:
   routes:
     - name: deals-ingress-route
       kind: Rule
-      match: PathPrefix(`/deals`)
+      match: PathPrefix(`/`)
       services:
         - name: deals-active
           port: 80
