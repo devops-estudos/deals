@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}
+  name: {{ .Chart.Name }}
   namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: {{ .Chart.Name }}
   replicas: {{ default 1 .Values.replicaCount | int }}
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: {{ .Chart.Name }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
